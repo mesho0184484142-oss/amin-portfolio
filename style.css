@@ -487,19 +487,81 @@ body {
 }
 
 /* التجاوب مع الموبايل والشاشات الصغيرة (في آخر الملف خالص) */
+/* =========================================
+   التجاوب الذكي مع الموبايل والشاشات الصغيرة (النسخة النهائية)
+========================================= */
 @media (max-width: 900px) {
+    /* 1. تظبيط الهيدر وشريط التنقل عشان ميبقاش مزنوق */
+    .navbar {
+        flex-direction: column !important;
+        padding: 12px 5% !important;
+        gap: 10px !important;
+    }
+    
+    .navbar nav {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .navbar nav a {
+        margin: 0 !important;
+        font-size: 13px !important;
+    }
+
+    .btn-contact {
+        padding: 5px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* 2. تظبيط القسم الرئيسي والصورة */
     .hero {
-        flex-direction: column-reverse;
-        text-align: center;
-        padding-top: 120px;
-        gap: 25px;
+        flex-direction: column-reverse !important;
+        text-align: center !important;
+        padding-top: 150px !important; /* زودنا المسافة فوق عشان الهيدر ميعملش تغطية على الصورة */
+        gap: 25px !important;
     }
+
     .hero-buttons {
-        justify-content: center;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
     }
+
     .image-frame {
-        width: 220px !important;
-        height: 270px !important;
+        width: 230px !important;
+        height: 280px !important;
+        margin: 0 auto !important;
+    }
+
+    /* 3. أهم سطر: ضبط تركيز الصورة عشان وشك يظهر فوق اليافطة وميتقصش */
+    .image-frame img {
+        object-position: center 10% !important; 
+    }
+}
+
+@media (max-width: 600px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .portfolio-card {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    .card-footer {
+        justify-content: center !important;
+    }
+    /* تصغير زرار تغيير الألوان سنة على الموبايل */
+    .theme-switcher {
+        bottom: 20px !important;
+        right: 20px !important;
+    }
+    .switcher-btn {
+        width: 42px !important;
+        height: 42px !important;
+        font-size: 20px !important;
     }
 }
 
