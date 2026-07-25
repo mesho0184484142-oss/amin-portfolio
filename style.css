@@ -1266,3 +1266,40 @@ img {
 .btn-secondary::before, .btn-secondary::after {
     display: none !important; 
 }
+/* =========================================
+   توسيط الأزرار وتنسيق وتصغير القوائم 
+========================================= */
+
+/* 1. توسيط زرار "رواد البرمجيات" وزرار المودال تحت الكلام مباشرة */
+#agency-link, 
+#modal-link,
+.modal-content .btn-primary {
+    margin: 20px auto 10px auto !important; /* بيجبر الزرار يتوسطن في النص بالظبط */
+    display: flex !important;
+    width: fit-content !important; /* بيخلي الزرار ياخد مساحة الكلام اللي جواه بس */
+    justify-content: center !important;
+}
+
+/* 2. تصغير وترتيب قائمة التقنيات (التاجز) في الشاشة السينمائية */
+#modal-tech-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 6px !important; /* تقليل المسافة بين التاجز */
+    margin: 10px 0 15px 0 !important;
+}
+
+#modal-tech-tags span {
+    font-size: 11px !important; /* تصغير حجم الخط */
+    padding: 4px 10px !important; /* تصغير حجم التاج نفسه */
+    border-radius: 50px !important;
+    white-space: nowrap !important;
+}
+
+/* 3. تصغير وتوسيط نص الوصف عشان مياخدش مساحة كبيرة */
+#modal-desc {
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+    text-align: center !important;
+    padding: 0 5px !important;
+}
