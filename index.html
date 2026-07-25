@@ -1,46 +1,28 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00f2fe">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- 1. كود إثبات ملكية الموقع لجوجل (في أول الكود لسرعة القراءة) -->
-    <meta name="google-site-verification" content="f_XWztfqmHqHLY6FkJrlLTxnUXZ3R-JPOtX0wtUS1Gc" />
-
-    <!-- عنوان الموقع الرسمي (مرة واحدة بس) -->
-    <title>أمين رجب | مطور تطبيقات ومصمم برمجيات</title>
-
-    <!-- وصف الموقع لمحركات البحث -->
-    <meta name="description" content="أمين رجب، خريج كلية الأعمال - جامعة الإسكندرية. متخصص في تطوير تطبيقات Flutter و Python، وتطبيقات الأوفلاين وإدارة الأنظمة التقنية.">
-
-    <!-- 2. تحديد اسم الموقع الرسمي لإلغاء نص GitHub Pages documentation -->
-    <meta property="og:site_name" content="أمين رجب | مطور تطبيقات ومصمم برمجيات">
-    <meta name="application-name" content="أمين رجب">
-
-    <!-- 3. إضافة الأيقونة (Favicon) لتظهر في المتصفح ونتائج جوجل -->
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="apple-touch-icon" href="icon.png">
-
-    <!-- 4. الصورة الرسمية لمشاركة الرابط على فيسبوك وواتساب -->
-    <meta property="og:image" content="https://mesho0184484142-oss.github.io/amin-portfolio/icon.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:type" content="website">
-
-    <!-- 5. كود إجباري لجوجل (Schema) لتعريف الهوية والبنية -->
+    
+    <!-- إجبار جوجل على قراءة اسم الموقع بدلاً من GitHub -->
+    <meta property="og:site_name" content="أمين رجب | رواد البرمجيات">
+    <meta name="application-name" content="أمين رجب | رواد البرمجيات">
+    <meta name="apple-mobile-web-app-title" content="أمين رجب | رواد البرمجيات">
+    
+    <!-- كود البيانات المهيكلة (Schema) لتوثيق اسم الموقع في محركات البحث -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "أمين رجب | مطور تطبيقات ومصمم برمجيات",
-      "alternateName": "Amin Ragab Portfolio",
-      "url": "https://mesho0184484142-oss.github.io/amin-portfolio/"
+      "@context" : "https://schema.org",
+      "@type" : "WebSite",
+      "name" : "أمين رجب | مطور برمجيات",
+      "alternateName" : "رواد البرمجيات",
+      "url" : "https://mesho0184484142-oss.github.io/"
     }
     </script>
 
-    <!-- إعدادات الـ PWA والتصميم -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#00f2fe">
+    <title>أمين رجب | خريج كلية الأعمال ومطور Flutter</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 </head>
@@ -52,8 +34,7 @@
             <span class="loading-status">تجهيز واجهة الأتمتة وتطبيقات Flutter 🚀</span>
         </div>
     </div>
-
-    <!-- مغير ألوان النيون الملكي (Live Theme Switcher) -->
+<!-- مغير ألوان النيون الملكي (Live Theme Switcher) -->
     <div class="theme-switcher">
         <div class="switcher-btn" title="تغيير لون الإضاءة">🎨</div>
         <div class="colors-box">
@@ -65,8 +46,7 @@
     </div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
-
-    <!-- خلفية الجسيمات التفاعلية -->
+<!-- خلفية الجسيمات التفاعلية -->
     <canvas id="particles-canvas"></canvas>
     <header class="navbar">
         <div class="logo">أمين <span>رجب</span></div>
@@ -80,24 +60,30 @@
     </header>
 
     <section id="hero" class="hero">
-        <div class="hero-content">
-            <div class="badge">🚀 خريج كلية الأعمال - جامعة الإسكندرية</div>
-            <h4>أهلاً بك، أنا</h4>
-            <h1>أمين رجب</h1>
-            <h3><span class="typed-text"></span><span class="cursor">&nbsp;</span></h3>
-            <p>لدي شغف كبير بمجال البرمجة والتكنولوجيا، وأتخصص في تطوير تطبيقات الهواتف المحمولة التي تعمل دون اتصال بالإنترنت (Offline) باستخدام إطار عمل فلاتر (Flutter) بأعلى سرعة وكفاءة.</p>
-            <div class="hero-buttons">
-                <a href="#portfolio" class="btn-primary">تصفح أعمالي (APK)</a>
-                <a href="#contact" class="btn-secondary">تواصل معي الآن</a>
-            </div>
+    <div class="hero-content">
+        <div class="badge">🚀 خريج كلية الأعمال - جامعة الإسكندرية</div>
+        <h4>أهلاً بك، أنا</h4>
+        <h1>أمين رجب</h1>
+        <h3><span class="typed-text"></span><span class="cursor">&nbsp;</span></h3>
+        <p>مطور برمجيات ومدير تقنية معلومات، متخصص في تصميم وبرمجة مواقع الويب التفاعلية وبناء تطبيقات الهواتف المحمولة (Flutter). أعمل على تطوير أنظمة أعمال وحلول رقمية متكاملة (Offline) بأعلى معايير الكفاءة والسرعة لخدمة الشركات والمؤسسات.</p>
+        <div class="hero-buttons">
+            <a href="#portfolio" class="btn-primary">تصفح سابقة أعمالي</a>
+            <a href="#contact" class="btn-secondary">تواصل معي الآن</a>
+            <button id="ai-voice-btn" class="btn-ai">
+                <span class="icon">🎙️</span> استمع للترحيب
+            </button>
         </div>
         
-        <div class="hero-image">
-            <div class="image-frame">
-                <img src="images/profile.jpg" alt="أمين رجب - مطور فلاتر ومدير IT">
-            </div>
+        <!-- ملف الصوت المخفي -->
+        <audio id="ai-audio" src="audio/greeting.mp3" preload="auto"></audio>
+    </div>
+    
+    <div class="hero-image">
+        <div class="image-frame">
+            <img src="images/profile.jpg" alt="أمين رجب - مطور برمجيات">
         </div>
-    </section>
+    </div>
+</section>
 
     <section id="skills" class="section">
         <h2 class="section-title">مهاراتي البرمجية</h2>
@@ -119,8 +105,23 @@
             </div>
         </div>
     </section>
-
-    <!-- قسم معرض الأعمال (Portfolio) المحدث مع أزرار الفلترة الذكية -->
+<!-- قسم الكيان المؤسسي (رواد البرمجيات) -->
+    <section class="section agency-section" id="agency">
+        <h2 class="section-title">الواجهة المؤسسية</h2>
+        <div class="agency-container">
+            <div class="agency-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                <div class="agency-content">
+                    <h3 class="agency-name">رواد البرمجيات <span>Software Pioneers</span></h3>
+                    <p class="agency-desc">
+                        ليس مجرد عمل حر، بل كيان متكامل متخصص في تقديم الحلول البرمجية الذكية وتطوير أنظمة الأعمال. نجمع بين الإدارة الاستراتيجية والتكنولوجيا الحديثة لنقل مؤسستك إلى المستقبل بكفاءة وسرعة فائقة.
+                    </p>
+                    <!-- هنحط اللينك بتاعك هنا بمجرد ما تبعته -->
+                    <a href="#" class="btn-primary" id="agency-link" target="_blank">زيارة صفحة رواد البرمجيات 🚀</a>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- قسم معرض الأعمال (Portfolio) المحدث مع أزرار الفلترة الذكية -->
     <section id="portfolio" class="section portfolio-section">
         <h2 class="section-title">أعمالي وتطبيقاتي</h2>
         <p class="portfolio-subtitle">جميع التطبيقات التالية (APK) متوفرة ومرفوعة بالكامل على المتجر وجاهزة للاستخدام</p>
@@ -132,6 +133,7 @@
             <button class="filter-btn" data-filter="business">إدارة وتجارة 🛒</button>
             <button class="filter-btn" data-filter="islamic">إسلامي وأوفلاين 📖</button>
             <button class="filter-btn" data-filter="finance">إدارة مالية 💰</button>
+            <button class="filter-btn" data-filter="web">مواقع ويب 🌐</button>
         </div>
 
         <div class="portfolio-grid">
@@ -225,16 +227,86 @@
                     </div>
                 </div>
             </a>
+             <!-- موقع شركة Atkestra -->
+            <a href="https://mesho0184484142-oss.github.io/Arkestra/" target="_blank" class="portfolio-card" data-category="web" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                <div class="card-image">
+                    <!-- متنساش تحط صورة للموقع هنا في مجلد images -->
+                    <img src="images/atkestra.png" alt="موقع شركة Atkestra">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="app-tag">موقع شركة </span>
+                        <h3>شركة Atkestra</h3>
+                    </div>
+                    <p>موقع تعريفي احترافي لشركة مقاولات عامة وتشطيبات، يبرز سابقة أعمال الشركة وخدماتها بخطوط وتصميمات هندسية دقيقة.</p>
+                    <div class="card-footer">
+                        <span class="status-badge">✅ Live Preview</span>
+                        <span class="click-hint">🌍 تصفح الموقع ➔</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- موقع د. أحمد رزق -->
+            <a href="https://mesho0184484142-oss.github.io/ahmed-rizk-landing/" target="_blank" class="portfolio-card" data-category="web" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                <div class="card-image">
+                    <!-- متنساش تحط صورة للموقع هنا في مجلد images -->
+                    <img src="images/ahmed-rizk.png" alt="موقع د. أحمد رزق">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="app-tag">محاضر جامعي </span>
+                        <h3>د. أحمد رزق</h3>
+                    </div>
+                    <p>صفحة  تفاعلية مصممة خصيصاً لمحاضر جامعي، تعرض الكورسات والتفاصيل الأكاديمية بشكل عصري وجذاب.</p>
+                    <div class="card-footer">
+                        <span class="status-badge">✅ Live Preview</span>
+                        <span class="click-hint">🌍 تصفح الموقع ➔</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- موقع د. عمرو الكيكي -->
+            <a href="https://mesho0184484142-oss.github.io/dr-amr-elkiki/" target="_blank" class="portfolio-card" data-category="web" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                <div class="card-image">
+                    <!-- متنساش تحط صورة للموقع هنا في مجلد images -->
+                    <img src="images/dr-amr.png" alt="موقع د. عمرو الكيكي">
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="app-tag">بورتفوليو طبي </span>
+                        <h3>د. عمرو الكيكي</h3>
+                    </div>
+                    <p>موقع شخصي وبورتفوليو طبي يعرض الخبرات، الشهادات الدولية، وتفاصيل العيادة الطبية لتسهيل التواصل مع المرضى.</p>
+                    <div class="card-footer">
+                        <span class="status-badge">✅ Live Preview</span>
+                        <span class="click-hint">🌍 تصفح الموقع ➔</span>
+                    </div>
+                </div>
+            </a>
 
         </div>
     </section>
-
-    <!-- قسم الإحصائيات الفاجر (Live Counter) -->
+    <!-- قسم الـ Terminal (واجهة المبرمج المحترف) -->
+    <section class="section terminal-section">
+        <h2 class="section-title">النواة والأنظمة</h2>
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <div class="terminal-title">bash - root@amin-os:~</div>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+                <!-- الكلام هيتكتب هنا تلقائي بالجافا سكريبت -->
+            </div>
+        </div>
+    </section>
+<!-- قسم الإحصائيات الفاجر (Live Counter) -->
     <section class="section stats-section">
         <div class="stats-grid">
             <div class="stat-card">
-                <h3 class="counter" data-target="5">0</h3>
-                <p>📲 تطبيقات مرفوعة على المتجر</p>
+                <h3 class="counter" data-target="8">0</h3>
+                <p>📲 تطبيقات ومواقع منجزة</p>
             </div>
             <div class="stat-card">
                 <h3 class="counter" data-target="100">0</h3>
@@ -250,7 +322,6 @@
             </div>
         </div>
     </section>
-
     <section id="contact" class="section contact-section">
         <h2 class="section-title">تواصل معي</h2>
         <p class="contact-subtitle">هل لديك فكرة مشروع أو تطبيق ترغب في تنفيذه؟ دعنا نتحدث الآن!</p>
@@ -275,11 +346,32 @@
             </a>
         </div>
     </section>
-
+<!-- الشاشة السينمائية لعرض تفاصيل المشاريع -->
+    <div class="project-modal" id="project-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-image-container">
+                    <img src="" alt="صورة المشروع" id="modal-img">
+                </div>
+                <div class="modal-details">
+                    <span class="app-tag" id="modal-tag"></span>
+                    <h3 id="modal-title"></h3>
+                    <p id="modal-desc"></p>
+                    <div class="modal-tech">
+                        <h4>التقنيات المستخدمة:</h4>
+                        <div class="tech-tags" id="modal-tech-tags">
+                            <!-- التاجز هتتضاف هنا تلقائي بالجافا سكريبت -->
+                        </div>
+                    </div>
+                    <a href="" target="_blank" class="btn-primary" id="modal-link">زيارة المشروع 🌍</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         <p>جميع الحقوق محفوظة © 2026 | تطوير وأتمتة <span>أمين رجب</span></p>
     </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
 </body>
