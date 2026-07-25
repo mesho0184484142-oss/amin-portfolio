@@ -1219,3 +1219,50 @@ img {
         width: 100%;
     }
 }
+/* =========================================
+   إصلاحات نهائية للمودال وأزرار الموبايل
+========================================= */
+
+/* 1. إصلاح الشاشة السينمائية (المودال) عشان متعملش بلوك للشاشة */
+.modal-content {
+    max-height: 85vh !important; /* أقصى طول 85% من الشاشة */
+    overflow-y: auto !important; /* تشغيل السكرول الداخلي */
+    position: relative !important;
+}
+
+/* تظبيط زرار الإغلاق (X) عشان يفضل ظاهر دايماً */
+.close-modal {
+    position: absolute !important;
+    top: 15px !important;
+    left: 15px !important; /* خلينها على الشمال عشان الموقع عربي */
+    font-size: 28px !important;
+    color: #ffffff !important;
+    background: #ff007f !important; /* لون خلفية عشان يبان فوق أي صورة */
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10000 !important;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* 2. إصلاح تشوه الأزرار (الزرار المتداخل) */
+.btn-primary, .btn-secondary, .btn-ai, a[class*="btn-"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 45px !important; /* ارتفاع ثابت يحمي الزرار من التشوه */
+    padding: 10px 20px !important;
+    line-height: normal !important;
+    white-space: nowrap !important; /* يمنع الكلام إنه ينزل على سطرين جوه الزرار */
+}
+
+/* إلغاء أي تأثيرات وهمية (Pseudo-elements) ممكن تكون مكسورة على الموبايل */
+.btn-primary::before, .btn-primary::after,
+.btn-secondary::before, .btn-secondary::after {
+    display: none !important; 
+}
