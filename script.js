@@ -109,7 +109,11 @@ window.addEventListener('scroll', () => {
     });
 });
 
-/* 4. تأثير الإضاءة التفاعلية مع حركة الماوس على الكروت (Bento & Portfolio) */
+/* 4. المحرك السينمائي (الإضاءة التفاعلية + 3D Tilt + Scroll Reveal + Magnetic Buttons) */
+
+const isDesktopDevice = window.matchMedia("(min-width: 992px) and (hover: hover)").matches;
+
+// أ) إضاءة الكروت + ميلان ثلاثي الأبعاد (3D Perspective Tilt)
 document.querySelectorAll('.bento-card, .portfolio-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
@@ -117,8 +121,118 @@ document.querySelectorAll('.bento-card, .portfolio-card').forEach(card => {
         const y = e.clientY - rect.top;
         card.style.setProperty('--x', `${x}px`);
         card.style.setProperty('--y', `${y}px`);
+
+        if (isDesktopDevice) {
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5; // ميلان ناعم وفخم
+            const rotateY = ((x - centerX) / centerX) * 5;
+            card.style.transform = `perspective(1000px) translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
     });
 });
+
+// ب) تفاعل ثلاثي الأبعاد لبرواز الصورة الشخصية في الهيرو (Hero 3D Parallax)
+const profileShowcase = document.querySelector('.profile-showcase');
+if (profileShowcase && isDesktopDevice) {
+    profileShowcase.addEventListener('mousemove', (e) => {
+        const rect = profileShowcase.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = (y / (rect.height / 2)) * -10;
+        const rotateY = (x / (rect.width / 2)) * 10;
+
+        profileShowcase.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    profileShowcase.addEventListener('mouseleave', () => {
+        profileShowcase.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        profileShowcase.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        setTimeout(() => {
+            profileShowcase.style.transition = '';
+        }, 600);
+    });
+}
+
+// ج) تأثير الانجذاب المغناطيسي للأزرار الملكية (Magnetic Buttons)
+if (isDesktopDevice) {
+    document.querySelectorAll('.btn-royal-gold, .btn-royal-blue, .btn-gold-sm').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.18}px, ${y * 0.25 - 3}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = '';
+        });
+    });
+}
+
+// د) شريط التقدم الذهبي العلوي + هالة الماوس الضوئية
+const scrollProgress = document.getElementById('scroll-progress');
+const cursorGlow = document.getElementById('cursor-glow');
+
+window.addEventListener('scroll', () => {
+    if (scrollProgress) {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        scrollProgress.style.width = `${progress}%`;
+    }
+});
+
+if (cursorGlow && isDesktopDevice) {
+    window.addEventListener('mousemove', (e) => {
+        cursorGlow.style.opacity = '1';
+        cursorGlow.style.left = `${e.clientX}px`;
+        cursorGlow.style.top = `${e.clientY}px`;
+    });
+}
+
+// هـ) الظهور السينمائي المتدرج للعناصر عند التمرير (Staggered Scroll Reveal)
+const revealSelectors = [
+    '.hero-text > *',
+    '.profile-showcase',
+    '.tech-item',
+    '.section-header',
+    '.bento-card',
+    '.agency-showcase',
+    '.stat-box',
+    '.portfolio-filters',
+    '.portfolio-card',
+    '.contact-box',
+    '.channel-card'
+];
+
+const revealElements = document.querySelectorAll(revealSelectors.join(', '));
+
+revealElements.forEach((el, index) => {
+    el.classList.add('reveal-item');
+    // تأخير متدرج خفيف للكروت اللي جنب بعض عشان يطلعوا واحد ورا التاني
+    const delay = (index % 4) * 0.08;
+    el.style.transitionDelay = `${delay}s`;
+});
+
+const revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            // إزالة التأخير بعد الظهور الأول عشان حركة الماوس والـ Hover تكون فورية وسريعة
+            setTimeout(() => {
+                entry.target.style.transitionDelay = '0s';
+            }, 900);
+            obs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+revealElements.forEach(el => revealObserver.observe(el));
 
 /* 5. عداد الإحصائيات التفاعلي (IntersectionObserver) */
 const counters = document.querySelectorAll('.counter');
