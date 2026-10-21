@@ -1447,7 +1447,146 @@ ul {
     color: var(--gold-primary);
     font-weight: 700;
 }
+/* ==========================================================================
+   إضافات الإبهار البصري السينمائي (Ultra Royal Animations & 3D Effects)
+   ========================================================================== */
 
+/* 1. شريط التقدم العلوي الذهبي المضيء */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--blue-light), var(--gold-primary), var(--gold-light));
+    box-shadow: 0 0 15px var(--gold-primary), 0 0 30px var(--blue-primary);
+    z-index: 9999999;
+    transition: width 0.08s ease-out;
+}
+
+/* 2. هالة إضاءة سينمائية تتبع الماوس في خلفية الموقع */
+.cursor-glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.07) 0%, rgba(37, 99, 235, 0.04) 40%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+/* 3. لمعة المعدن الذهبي المتحركة على العناوين والأزرار (Shimmer Effect) */
+.gold-gradient {
+    background: linear-gradient(
+        110deg,
+        var(--gold-light) 0%,
+        var(--gold-primary) 25%,
+        #ffffff 45%,
+        var(--gold-primary) 65%,
+        var(--blue-light) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: royalShine 5s linear infinite;
+}
+
+@keyframes royalShine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* لمعة ضوئية تمر على الأزرار الذهبية الملكية */
+.btn-royal-gold, .btn-gold-sm {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-royal-gold::before, .btn-gold-sm::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.45),
+        transparent
+    );
+    transform: skewX(-25deg);
+    animation: btnSweep 4.5s infinite;
+    pointer-events: none;
+}
+
+@keyframes btnSweep {
+    0% { left: -120%; }
+    25%, 100% { left: 150%; }
+}
+
+/* 4. تهيئة الأبعاد الثلاثية (3D Perspective) للكروت وبرواز الصورة */
+.profile-showcase {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+.profile-showcase .frame-border-gold,
+.profile-showcase .frame-border-blue {
+    transform: translateZ(-15px) rotate(-3deg);
+}
+
+.profile-showcase .frame-border-blue {
+    transform: translateZ(-25px) rotate(3deg);
+}
+
+.profile-showcase .image-wrapper {
+    transform: translateZ(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-showcase .floating-badge {
+    animation: floatSlow3D 4s ease-in-out infinite;
+    z-index: 10;
+}
+
+.profile-showcase .badge-bottom {
+    animation-delay: 2s;
+}
+
+@keyframes floatSlow3D {
+    0%, 100% { transform: translateZ(60px) translateY(0); }
+    50% { transform: translateZ(60px) translateY(-8px); }
+}
+
+.bento-icon, .bento-card h3, .bento-card p, .bento-tags {
+    transform: translateZ(25px);
+    position: relative;
+    z-index: 2;
+}
+
+/* 5. نظام الظهور السينمائي المتدرج عند التمرير (Scroll Reveal) */
+.reveal-item {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-item.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* توهج حدود الكروت عند التحويم بشكل أكثر فخامة */
+.bento-card:hover, .portfolio-card:hover {
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.14);
+}
 /* ==========================================================================
    11. التجاوب الكامل مع الشاشات والهواتف (Responsive Design)
    ========================================================================== */
