@@ -1,21 +1,28 @@
 {
-  "name": "أمين رجب | IT & Software Developer",
+  "id": "/",
+  "name": "أمين رجب | رواد البرمجيات — تطبيقات وأنظمة ومواقع ويب",
   "short_name": "أمين رجب",
-  "start_url": "index.html",
+  "description": "رواد البرمجيات — تطوير تطبيقات موبايل وبرامج ويندوز (Flutter) شغالة 100% أوفلاين، برامج حسابات وكاشير وإدارة سناتر، ومواقع ويب سريعة للشركات والعيادات والمحاضرين.",
+  "dir": "rtl",
+  "lang": "ar",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#00f2fe",
+  "background_color": "#07090e",
+  "theme_color": "#07090e",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "images/profile.jpg",
-      "type": "image/jpeg",
-      "sizes": "192x192"
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
       "src": "images/profile.jpg",
+      "sizes": "512x512",
       "type": "image/jpeg",
-      "sizes": "512x512"
+      "purpose": "any"
     }
   ]
 }

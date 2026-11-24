@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="أمين رجب | رواد البرمجيات">
+  <defs>
+    <radialGradient id="obsidianBg" cx="35%" cy="25%" r="80%">
+      <stop offset="0%" stop-color="#151d30"/>
+      <stop offset="60%" stop-color="#0a0e17"/>
+      <stop offset="100%" stop-color="#07090e"/>
+    </radialGradient>
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e5ab"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#aa7c11"/>
+    </linearGradient>
+    <linearGradient id="goldMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7ecc0"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#b88918"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#obsidianBg)" stroke="url(#goldBorder)" stroke-width="2.2"/>
+  <rect x="6" y="6" width="52" height="52" rx="11.5" fill="none" stroke="#d4af37" stroke-opacity="0.22" stroke-width="0.9"/>
+
+  <polygon points="32,10.5 34.4,13 32,15.5 29.6,13" fill="#60a5fa" opacity="0.95"/>
+
+  <g fill="none" stroke="url(#goldMain)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 14 44 L 22 20 L 30 44"/>
+    <path d="M 17 36.5 L 27 36.5" stroke-width="2.9"/>
+    <path d="M 36 44 L 36 20 L 44.5 20 C 48.6 20 50.5 22.8 50.5 26.5 C 50.5 30.2 48.6 33 44.5 33 L 36 33"/>
+    <path d="M 43 33 L 50.5 44"/>
+  </g>
+</svg>
