@@ -791,8 +791,8 @@
             );
         }
 
-        // 5C. Zero-Lag Bento & Portfolio Card 3D Tilt + Cached Bounding Rects
-        const tiltCards = Array.from(document.querySelectorAll('.bento-card, .portfolio-card'));
+        // 5C. Zero-Lag Bento, Portfolio & Agency KPI Card 3D Tilt + Cached Bounding Rects
+        const tiltCards = Array.from(document.querySelectorAll('.bento-card, .portfolio-card, .stat-box'));
         const cardRectCache = new WeakMap();
 
         const invalidateCardRects = () => {
@@ -865,7 +865,7 @@
 
         // 5D. Subtle Magnetic Pull on Primary CTAs
         const magneticButtons = Array.from(
-            document.querySelectorAll('.btn-royal-gold, .btn-royal-blue, .btn-gold-sm, #concierge-whatsapp-btn')
+            document.querySelectorAll('.btn-royal-gold, .btn-royal-blue, .btn-agency-glass, .btn-gold-sm, #concierge-whatsapp-btn')
         );
         const btnRectCache = new WeakMap();
 
@@ -1175,42 +1175,51 @@
     }
 
     /* ----------------------------------------------------------------------
-       8. Smart Project Configurator ("مستشار المشاريع الذكي" — 30 Seconds)
+       8. Flagship 5-Step Smart Project Blueprint Studio ("مستشار المشاريع الذكي")
        ---------------------------------------------------------------------- */
     function initSmartConcierge() {
         const conciergeBox = document.getElementById('smart-concierge');
         if (!conciergeBox) return;
 
         const typeChips = Array.from(conciergeBox.querySelectorAll('.concierge-chip[data-group="type"]'));
+        const platformChips = Array.from(conciergeBox.querySelectorAll('.concierge-chip[data-group="platform"]'));
+        const scaleChips = Array.from(conciergeBox.querySelectorAll('.concierge-chip[data-group="scale"]'));
         const priorityChips = Array.from(conciergeBox.querySelectorAll('.concierge-chip[data-group="priority"]'));
+        const timelineChips = Array.from(conciergeBox.querySelectorAll('.concierge-chip[data-group="timeline"]'));
+
+        const nameInput = document.getElementById('concierge-client-name');
+        const notesInput = document.getElementById('concierge-notes');
+
+        const progressValueEl = document.getElementById('concierge-progress-value');
+        const progressFillEl = document.getElementById('concierge-progress-fill');
+        const progressHintEl = document.getElementById('concierge-progress-hint');
+
+        const etaEl = document.getElementById('blueprint-eta');
+        const tierEl = document.getElementById('blueprint-tier');
+        const matchNameEl = document.getElementById('blueprint-match-name');
+        const matchSubEl = document.getElementById('blueprint-match-sub');
+        const matchPreviewBtn = document.getElementById('blueprint-match-btn');
+
+        const specTypeEl = document.getElementById('blueprint-spec-type');
+        const specPlatformsEl = document.getElementById('blueprint-spec-platforms');
+        const specScaleEl = document.getElementById('blueprint-spec-scale');
+        const specTimelineEl = document.getElementById('blueprint-spec-timeline');
+        const specModulesEl = document.getElementById('blueprint-spec-modules');
+        const modulesCountEl = document.getElementById('blueprint-modules-count');
+
+        const waPreviewEl = document.getElementById('concierge-wa-preview');
         const summaryEl = document.getElementById('concierge-summary');
         const whatsappBtn = document.getElementById('concierge-whatsapp-btn');
+        const copyBtn = document.getElementById('concierge-copy-btn');
+        const resetBtn = document.getElementById('concierge-reset-btn');
 
         if (typeChips.length === 0 || !whatsappBtn) return;
 
         const whatsappNumber = (whatsappBtn.dataset.whatsapp || '201201076502').replace(/\D/g, '');
-
-        const getRecommendation = (projectType, priorities) => {
-            const hasOffline = priorities.some(
-                (p) => p.includes('من غير نت') || p.includes('أوفلاين') || p.includes('Offline')
-            );
-
-            switch (projectType) {
-                case 'موقع طبي / عيادة':
-                    return 'موقع عيادة د. عمرو الكيكي (واجهة طبية واضحة وحجز مباشر عالواتساب)';
-                case 'سيستم سنتر أو منصة تعليمية':
-                    return hasOffline
-                        ? 'سيستم Nova Academy (موبايل + ويندوز أوفلاين) ومنصة د. أحمد رزق'
-                        : 'منصة د. أحمد رزق وسيستم Nova Academy لإدارة السناتر';
-                case 'سيستم حسابات وكاشير':
-                    return 'Nova Academy ERP و Market Control (كاشير وحسابات ومخازن أوفلاين 100%)';
-                case 'موقع شركة وهوية رقمية':
-                    return 'موقع شركة Arkestra للمقاولات (واجهة فخمة وسريعة على الموبايل)';
-                case 'تطبيق موبايل + كمبيوتر':
-                default:
-                    return 'سيستم Nova Academy (موبايل + ويندوز أوفلاين 100%)';
-            }
-        };
+        let userCustomizedPlatforms = false;
+        let currentMatchedCardTitle = 'Nova Academy';
+        let currentFormattedMessage = '';
+        let copyResetTimer = null;
 
         const setChipState = (chip, selected) => {
             chip.classList.toggle('is-selected', selected);
@@ -1218,69 +1227,273 @@
             chip.setAttribute('aria-pressed', String(selected));
         };
 
+        const getRecommendedPlatforms = (projectType) => {
+            if (projectType.includes('عيادة') || projectType.includes('موقع شركة')) {
+                return ['موقع / منصة ويب'];
+            }
+            if (projectType.includes('سنتر')) {
+                return ['أندرويد (Android)', 'ويندوز (Windows Desktop)'];
+            }
+            if (projectType.includes('كاشير')) {
+                return ['أندرويد (Android)', 'ويندوز (Windows Desktop)'];
+            }
+            if (projectType.includes('مخصص')) {
+                return ['أندرويد (Android)', 'موقع / منصة ويب'];
+            }
+            return ['أندرويد (Android)', 'ويندوز (Windows Desktop)'];
+        };
+
+        const getMatchedReference = (projectType, selectedPlatforms, priorities) => {
+            const hasOffline = priorities.some((p) => p.includes('أوفلاين') || p.includes('من غير نت'));
+            const hasWebOnly =
+                selectedPlatforms.length === 1 && selectedPlatforms[0].includes('ويب');
+
+            if (projectType.includes('عيادة')) {
+                return {
+                    name: 'عيادة د. عمرو الكيكي',
+                    sub: 'واجهة طبية فخمة تعرض الخبرات والزمالات وحجز مباشر على الواتساب.',
+                    cardTitle: 'عيادة د. عمرو الكيكي'
+                };
+            }
+            if (projectType.includes('سنتر')) {
+                if (hasWebOnly && !hasOffline) {
+                    return {
+                        name: 'منصة المحاضر د. أحمد رزق',
+                        sub: 'تسجيل طلاب الجامعة والامتحانات الأونلاين (Firebase) بسرعة فائقة.',
+                        cardTitle: 'منصة المحاضر د. أحمد رزق'
+                    };
+                }
+                return {
+                    name: 'سيستم Nova Academy ERP',
+                    sub: 'موبايل + ويندوز أوفلاين 100% بحضور QR، محافظ طلاب، ونسخ سحابي مشفّر.',
+                    cardTitle: 'Nova Academy'
+                };
+            }
+            if (projectType.includes('كاشير')) {
+                return {
+                    name: 'سيستم Market Control POS',
+                    sub: 'كاشير ومخازن يشيل +14 ألف صنف بالباركود وتقفيل شيفت Z-Report أوفلاين 100%.',
+                    cardTitle: 'Market Control'
+                };
+            }
+            if (projectType.includes('موقع شركة')) {
+                return {
+                    name: 'شركة Arkestra للمقاولات',
+                    sub: 'واجهة معمارية 3D فخمة، سابقة أعمال منظمة، وتهيئة قوية لبحث جوجل (SEO).',
+                    cardTitle: 'شركة Arkestra للمقاولات'
+                };
+            }
+            if (projectType.includes('مخصص')) {
+                return {
+                    name: 'Nova Academy + تطبيق ميزانيتي',
+                    sub: 'تفصيل معماري كامل حسب طبيعة نشاطك بحسابات دقيقة وقاعدة بيانات محلية سريعة.',
+                    cardTitle: 'تطبيق ميزانيتي'
+                };
+            }
+            return {
+                name: 'سيستم Nova Academy',
+                sub: 'سيستم متكامل على الموبايل والويندوز شغال 100% أوفلاين مع حسابات بالملي.',
+                cardTitle: 'Nova Academy'
+            };
+        };
+
+        const computeEstimate = (activeTypeChip, selectedPlatformChips, activeScaleChip, selectedPriorityChips, timelineVal) => {
+            const baseDays = Number(activeTypeChip?.dataset.baseDays) || 14;
+            const platformDays = selectedPlatformChips.reduce(
+                (sum, chip, idx) => sum + (idx === 0 ? 0 : Number(chip.dataset.days) || 3),
+                0
+            );
+            const moduleDays = selectedPriorityChips.reduce(
+                (sum, chip) => sum + (Number(chip.dataset.days) || 2),
+                0
+            );
+            const scaleMult = Number(activeScaleChip?.dataset.scaleMult) || 1;
+            const rawDays = Math.round((baseDays + platformDays + Math.min(moduleDays, 14)) * scaleMult);
+
+            if (timelineVal.includes('عاجل')) {
+                const fastMin = Math.max(5, Math.round(rawDays * 0.65));
+                const fastMax = Math.max(fastMin + 4, Math.round(rawDays * 0.85));
+                return `${fastMin} – ${fastMax} يوم (أولوية)`;
+            }
+
+            if (rawDays <= 12) return '7 – 12 يوم عمل';
+            if (rawDays <= 20) return '2 – 3 أسابيع';
+            if (rawDays <= 32) return '3 – 5 أسابيع';
+            return '4 – 6 أسابيع (على مراحل)';
+        };
+
         const syncConciergeOutput = () => {
             const activeTypeChip =
                 typeChips.find((c) => c.getAttribute('aria-pressed') === 'true') || typeChips[0];
-            const selectedType = activeTypeChip ? activeTypeChip.dataset.value || '' : '';
+            const selectedType = activeTypeChip?.dataset.value || '';
 
-            const selectedPriorities = priorityChips
-                .filter((c) => c.getAttribute('aria-pressed') === 'true')
+            const selectedPlatformChips = platformChips.filter(
+                (c) => c.getAttribute('aria-pressed') === 'true'
+            );
+            const selectedPlatforms = selectedPlatformChips
                 .map((c) => c.dataset.value || '')
                 .filter(Boolean);
 
-            const recommendation = getRecommendation(selectedType, selectedPriorities);
+            const activeScaleChip =
+                scaleChips.find((c) => c.getAttribute('aria-pressed') === 'true') || scaleChips[1] || scaleChips[0];
+            const selectedScale = activeScaleChip?.dataset.value || '';
+            const selectedScaleShort = activeScaleChip?.querySelector('strong')?.textContent?.trim() || selectedScale;
+            const selectedTier = activeScaleChip?.dataset.tier || 'سيستم احترافي متكامل';
 
-            // Render live concise Egyptian summary + smart portfolio recommendation
-            if (summaryEl) {
-                const fragment = document.createDocumentFragment();
+            const selectedPriorityChips = priorityChips.filter(
+                (c) => c.getAttribute('aria-pressed') === 'true'
+            );
+            const selectedPriorities = selectedPriorityChips
+                .map((c) => c.dataset.value || '')
+                .filter(Boolean);
 
-                const intro = document.createTextNode('اختيار ممتاز! أنسب نموذج قريب لطلبك في شغلنا هو ');
-                const recStrong = document.createElement('strong');
-                recStrong.textContent = recommendation;
-                const outro = document.createTextNode(' — دوس تحت وابعتلي التفاصيل عالواتساب ونبدأ فوراً.');
+            const activeTimelineChip =
+                timelineChips.find((c) => c.getAttribute('aria-pressed') === 'true') || timelineChips[1] || timelineChips[0];
+            const selectedTimeline = activeTimelineChip?.dataset.value || '';
+            const selectedTimelineShort = activeTimelineChip?.querySelector('span')?.textContent?.trim() || selectedTimeline;
 
-                fragment.appendChild(intro);
-                fragment.appendChild(recStrong);
-                fragment.appendChild(outro);
+            const clientName = nameInput ? nameInput.value.trim() : '';
+            const clientNotes = notesInput ? notesInput.value.trim() : '';
 
-                if (selectedPriorities.length > 0) {
-                    const br = document.createElement('br');
-                    const prioText = document.createTextNode(`المميزات اللي اخترتها (${selectedPriorities.length}): ${selectedPriorities.join(' • ')}`);
-                    fragment.appendChild(br);
-                    fragment.appendChild(prioText);
+            // 1. Live Readiness Progress Meter
+            let readiness = 50;
+            if (selectedPlatforms.length > 0) readiness += 15;
+            if (selectedPriorities.length > 0) readiness += Math.min(20, selectedPriorities.length * 8);
+            if (clientName.length > 1) readiness += 8;
+            if (clientNotes.length > 3) readiness += 7;
+            readiness = clamp(readiness, 50, 100);
+
+            if (progressValueEl) progressValueEl.textContent = `${readiness}%`;
+            if (progressFillEl) progressFillEl.style.width = `${readiness}%`;
+            if (progressHintEl) {
+                if (readiness >= 95) {
+                    progressHintEl.textContent = 'مخطط مكتمل 100% — جاهز للإرسال والتنفيذ فوراً!';
+                } else if (readiness >= 80) {
+                    progressHintEl.textContent = 'تفاصيل ممتازة — اكتب اسم نشاطك أو ملاحظة لاكتمال 100%';
+                } else {
+                    progressHintEl.textContent = 'اختار المنصات والمميزات عشان المخطط يكون أدق';
                 }
-
-                summaryEl.replaceChildren(fragment);
             }
 
-            // Compose natural Egyptian client WhatsApp message
-            const prioritiesText =
-                selectedPriorities.length > 0
-                    ? selectedPriorities.join(' + ')
-                    : 'هنرتب أهم التفاصيل والمميزات مع بعض';
+            // 2. Live ETA & Complexity Tier
+            const etaText = computeEstimate(
+                activeTypeChip,
+                selectedPlatformChips,
+                activeScaleChip,
+                selectedPriorityChips,
+                selectedTimeline
+            );
+            if (etaEl) etaEl.textContent = etaText;
+            if (tierEl) tierEl.textContent = selectedTier;
 
-            const message = [
-                'السلام عليكم يا باشمهندس، كنت حابب أتفاهم معاك في تنفيذ مشروع جديد:',
-                `• نوع المشروع: ${selectedType}`,
-                `• أهم المميزات المطلوبة: ${prioritiesText}`,
-                'يا ريت تقولي التفاصيل والتكلفة المبدئية.'
-            ].join('\n');
+            // 3. Closest Live Portfolio Match
+            const matched = getMatchedReference(selectedType, selectedPlatforms, selectedPriorities);
+            currentMatchedCardTitle = matched.cardTitle;
+            if (matchNameEl) matchNameEl.textContent = matched.name;
+            if (matchSubEl) matchSubEl.textContent = matched.sub;
+
+            // 4. Structured Live Specs
+            const platformsSummary =
+                selectedPlatforms.length > 0 ? selectedPlatforms.join(' + ') : 'هنحددها سوا في المكالمة';
+
+            if (specTypeEl) specTypeEl.textContent = selectedType;
+            if (specPlatformsEl) specPlatformsEl.textContent = platformsSummary;
+            if (specScaleEl) specScaleEl.textContent = selectedScaleShort;
+            if (specTimelineEl) specTimelineEl.textContent = selectedTimelineShort;
+
+            if (modulesCountEl) modulesCountEl.textContent = String(selectedPriorities.length);
+            if (specModulesEl) {
+                const frag = document.createDocumentFragment();
+                if (selectedPriorities.length === 0) {
+                    const empty = document.createElement('span');
+                    empty.className = 'bp-module-empty';
+                    empty.textContent = 'لم يتم تحديد وحدات إضافية بعد — هنرتبها مع بعض';
+                    frag.appendChild(empty);
+                } else {
+                    selectedPriorities.forEach((mod) => {
+                        const pill = document.createElement('span');
+                        pill.className = 'bp-module-pill';
+                        pill.textContent = mod;
+                        frag.appendChild(pill);
+                    });
+                }
+                specModulesEl.replaceChildren(frag);
+            }
+
+            // 5. Compose Structured Professional Arabic WhatsApp Brief
+            const lines = [
+                'السلام عليكم يا باشمهندس أمين، ده مخطط مبدئي لمشروع محتاج ننفذه سوا:'
+            ];
+            if (clientName) {
+                lines.push(`• الاسم / النشاط: ${clientName}`);
+            }
+            lines.push(`• نوع المشروع: ${selectedType}`);
+            lines.push(`• المنصات المطلوبة: ${platformsSummary}`);
+            lines.push(`• حجم النشاط: ${selectedScale}`);
+            lines.push(
+                `• المميزات المطلوبة: ${
+                    selectedPriorities.length > 0
+                        ? selectedPriorities.join(' + ')
+                        : 'هنحدد أهم التفاصيل مع بعض'
+                }`
+            );
+            lines.push(`• التوقيت المفضل: ${selectedTimeline}`);
+            lines.push(`• أقرب نموذج شبيه: ${matched.name}`);
+            if (clientNotes) {
+                lines.push(`• ملاحظات إضافية: ${clientNotes}`);
+            }
+            lines.push('يا ريت نرتب التفاصيل والتكلفة المبدئية.');
+
+            currentFormattedMessage = lines.join('\n');
+
+            if (waPreviewEl) {
+                waPreviewEl.textContent = currentFormattedMessage;
+            }
+            if (summaryEl) {
+                summaryEl.textContent = `مخطط مشروع ${selectedType} (${platformsSummary}) — المدة التقديرية ${etaText}.`;
+            }
 
             whatsappBtn.setAttribute(
                 'href',
-                `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+                `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(currentFormattedMessage)}`
             );
         };
 
-        // Single-select project type chips
+        // Step 01: Single-select project type + smart platform auto-match
         typeChips.forEach((chip) => {
             chip.addEventListener('click', () => {
                 typeChips.forEach((other) => setChipState(other, other === chip));
+
+                if (!userCustomizedPlatforms && platformChips.length > 0) {
+                    const suggested = getRecommendedPlatforms(chip.dataset.value || '');
+                    platformChips.forEach((pChip) => {
+                        setChipState(pChip, suggested.includes(pChip.dataset.value || ''));
+                    });
+                }
+
                 syncConciergeOutput();
             });
         });
 
-        // Multi-select priority chips
+        // Step 02: Multi-select platforms (keep at least 1 selected or allow flexible toggle)
+        platformChips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                userCustomizedPlatforms = true;
+                const nextState = chip.getAttribute('aria-pressed') !== 'true';
+                setChipState(chip, nextState);
+                syncConciergeOutput();
+            });
+        });
+
+        // Step 03: Single-select business scale
+        scaleChips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                scaleChips.forEach((other) => setChipState(other, other === chip));
+                syncConciergeOutput();
+            });
+        });
+
+        // Step 04: Multi-select feature modules
         priorityChips.forEach((chip) => {
             chip.addEventListener('click', () => {
                 const nextState = chip.getAttribute('aria-pressed') !== 'true';
@@ -1288,6 +1501,93 @@
                 syncConciergeOutput();
             });
         });
+
+        // Step 05: Single-select timeline + live text inputs
+        timelineChips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                timelineChips.forEach((other) => setChipState(other, other === chip));
+                syncConciergeOutput();
+            });
+        });
+
+        if (nameInput) nameInput.addEventListener('input', syncConciergeOutput);
+        if (notesInput) notesInput.addEventListener('input', syncConciergeOutput);
+
+        // Open matched live portfolio Case-Study Modal directly from Blueprint card
+        if (matchPreviewBtn) {
+            matchPreviewBtn.addEventListener('click', () => {
+                const portfolioCards = Array.from(document.querySelectorAll('.portfolio-card'));
+                const targetCard = portfolioCards.find((card) => {
+                    const cardTitle = card.querySelector('.card-title')?.textContent?.trim() || '';
+                    return cardTitle === currentMatchedCardTitle || cardTitle.includes(currentMatchedCardTitle);
+                });
+                if (targetCard) {
+                    targetCard.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+                }
+            });
+        }
+
+        // Copy full structured brief to clipboard
+        if (copyBtn) {
+            copyBtn.addEventListener('click', async () => {
+                if (!currentFormattedMessage) return;
+                let copied = false;
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(currentFormattedMessage);
+                        copied = true;
+                    }
+                } catch {
+                    copied = false;
+                }
+
+                if (!copied) {
+                    const fallback = document.createElement('textarea');
+                    fallback.value = currentFormattedMessage;
+                    fallback.setAttribute('readonly', '');
+                    fallback.style.position = 'fixed';
+                    fallback.style.opacity = '0';
+                    document.body.appendChild(fallback);
+                    fallback.select();
+                    try {
+                        copied = document.execCommand('copy');
+                    } catch {
+                        copied = false;
+                    }
+                    document.body.removeChild(fallback);
+                }
+
+                if (copied) {
+                    copyBtn.classList.add('is-copied');
+                    const span = copyBtn.querySelector('span');
+                    const icon = copyBtn.querySelector('i');
+                    if (span) span.textContent = 'تم نسخ مخطط الطلب ✓';
+                    if (icon) icon.className = 'fa-solid fa-check';
+
+                    window.clearTimeout(copyResetTimer);
+                    copyResetTimer = window.setTimeout(() => {
+                        copyBtn.classList.remove('is-copied');
+                        if (span) span.textContent = 'نسخ ملخص الطلب';
+                        if (icon) icon.className = 'fa-regular fa-copy';
+                    }, 2200);
+                }
+            });
+        }
+
+        // Reset configurator cleanly to flagship defaults
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                userCustomizedPlatforms = false;
+                typeChips.forEach((c, idx) => setChipState(c, idx === 0));
+                platformChips.forEach((c, idx) => setChipState(c, idx === 0 || idx === 1));
+                scaleChips.forEach((c, idx) => setChipState(c, idx === 1));
+                priorityChips.forEach((c, idx) => setChipState(c, idx === 0 || idx === 2));
+                timelineChips.forEach((c, idx) => setChipState(c, idx === 1));
+                if (nameInput) nameInput.value = '';
+                if (notesInput) notesInput.value = '';
+                syncConciergeOutput();
+            });
+        }
 
         // Initial synchronization on load
         syncConciergeOutput();

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'amin-portfolio-v8';
+const CACHE_NAME = 'amin-portfolio-v10';
 
 const ASSETS_TO_CACHE = [
   '/',
